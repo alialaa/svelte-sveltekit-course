@@ -2,9 +2,10 @@
 	let firstName = $state('Ali');
 	let lastName = $state('Alaa');
 	let fullName = $derived.by(() => {
+		console.log('fullName Derived');
 		return `${firstName} ${lastName}`;
 	});
-	let username = $state('alialaa');
+	let username = $state('');
 	let src = 'https://picsum.photos/250/300';
 	let bio = 'Hello, <b>this</b> is me.';
 
@@ -15,10 +16,21 @@
 	});
 </script>
 
+<button
+	onclick={() => {
+		console.log(fullName);
+	}}>Get Full Name</button
+>
 <input bind:value={username} />
-<input bind:value={firstName} />
+<input
+	value={firstName}
+	oninput={(e) => {
+		firstName = e.currentTarget.value;
+		console.log(fullName);
+	}}
+/>
 <input bind:value={lastName} />
-<!-- <img {src} alt="A photo of {name}" /> -->
+<img {src} alt="A photo of {username || fullName}" />
 <h1>{username || fullName}</h1>
 <p>{@html bio}</p>
 
