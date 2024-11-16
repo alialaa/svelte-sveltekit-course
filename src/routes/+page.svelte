@@ -1,5 +1,5 @@
 <script>
-	import RandomNumber from '$lib/components/RandomNumber.svelte';
+	import Counter from '$lib/components/Counter.svelte';
 </script>
 
-<RandomNumber />
+<Counter />
