@@ -1,5 +1,5 @@
 <script>
-	import Counter from '$lib/components/Counter.svelte';
+	import Button from '$lib/components/Button.svelte';
 </script>
 
-<Counter />
+<Button />
