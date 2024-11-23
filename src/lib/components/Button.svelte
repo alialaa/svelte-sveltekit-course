@@ -9,8 +9,6 @@
 		children: Snippet<[boolean]>;
 		size?: 'sm' | 'lg';
 		shadow?: boolean;
-		bgColor?: string;
-		textColor?: string;
 	};
 	let {
 		left,
@@ -18,20 +16,12 @@
 		size = 'sm',
 		shadow = false,
 		children,
-		bgColor,
-		textColor,
+
 		...props
 	}: Props = $props();
 </script>
 
-<button
-	class:sm={size == 'sm'}
-	class:lg={size == 'lg'}
-	class:shadow
-	style:--buttonBgColor={bgColor}
-	style:--buttonTextColor={textColor}
-	{...props}
->
+<button class:sm={size == 'sm'} class:lg={size == 'lg'} class:shadow {...props}>
 	{#if left}
 		<div
 			role="presentation"
@@ -89,9 +79,6 @@
 		}
 		.left-content {
 			margin-inline-end: 10px;
-			:global(svg) {
-				stroke: red;
-			}
 		}
 		.right-content {
 			margin-inline-start: 10px;
