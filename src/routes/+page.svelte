@@ -23,6 +23,7 @@
 	>
 		<Button
 			bind:this={button}
+			href={undefined}
 			size="lg"
 			--buttonBgColor="yellow"
 			--buttonTextColor="green"
