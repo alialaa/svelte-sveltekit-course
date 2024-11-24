@@ -6,7 +6,17 @@
 
 <div class="wrapper">
 	{@html html}
-	<Button size="lg" --buttonBgColor="yellow" --buttonTextColor="green">
+	<Button
+		size="lg"
+		--buttonBgColor="yellow"
+		--buttonTextColor="green"
+		onclick={() => {
+			alert(true);
+		}}
+		onlefthover={() => {
+			console.log('left hovered');
+		}}
+	>
 		{#snippet left(isHovered)}
 			{#if isHovered}
 				<Search />
