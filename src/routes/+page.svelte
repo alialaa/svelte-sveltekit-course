@@ -6,29 +6,38 @@
 
 <div class="wrapper">
 	{@html html}
-	<Button
-		size="lg"
-		--buttonBgColor="yellow"
-		--buttonTextColor="green"
-		onclick={() => {
-			alert(true);
-		}}
-		onlefthover={() => {
-			console.log('left hovered');
+	<div
+		role="presentation"
+		onclick={(e) => {
+			e.stopPropagation();
+			console.log('event coming from div');
 		}}
 	>
-		{#snippet left(isHovered)}
-			{#if isHovered}
-				<Search />
-			{:else}
+		<Button
+			size="lg"
+			--buttonBgColor="yellow"
+			--buttonTextColor="green"
+			onclick={(e) => {
+				e.stopPropagation();
+				console.log('event coming from button');
+			}}
+			onlefthover={() => {
+				console.log('left hovered');
+			}}
+		>
+			{#snippet left(isHovered)}
+				{#if isHovered}
+					<Search />
+				{:else}
+					<AlarmCheck />
+				{/if}
+			{/snippet}
+			Text
+			{#snippet right()}
 				<AlarmCheck />
-			{/if}
-		{/snippet}
-		Text
-		{#snippet right()}
-			<AlarmCheck />
-		{/snippet}
-	</Button>
+			{/snippet}
+		</Button>
+	</div>
 </div>
 
 <style>
