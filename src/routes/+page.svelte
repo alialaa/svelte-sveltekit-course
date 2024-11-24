@@ -2,6 +2,14 @@
 	import Button from '$lib/components/Button.svelte';
 	import { AlarmCheck, Search } from 'lucide-svelte';
 	let html = '<p>dwdwdw</p>';
+
+	let button: Button;
+
+	$effect(() => {
+		button.getButton().focus();
+		// or
+		// button.focus()
+	});
 </script>
 
 <div class="wrapper">
@@ -14,6 +22,7 @@
 		}}
 	>
 		<Button
+			bind:this={button}
 			size="lg"
 			--buttonBgColor="yellow"
 			--buttonTextColor="green"

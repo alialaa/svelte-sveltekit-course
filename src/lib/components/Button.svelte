@@ -3,6 +3,8 @@
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 	let isLeftHovered = $state(false);
 
+	let button: HTMLButtonElement;
+
 	type Props = HTMLButtonAttributes & {
 		left?: Snippet<[boolean]>;
 		right?: Snippet;
@@ -20,9 +22,17 @@
 		onlefthover,
 		...props
 	}: Props = $props();
+
+	export function focus() {
+		button.focus();
+	}
+
+	export function getButton() {
+		return button;
+	}
 </script>
 
-<button class:sm={size == 'sm'} class:lg={size == 'lg'} class:shadow {...props}>
+<button bind:this={button} class:sm={size == 'sm'} class:lg={size == 'lg'} class:shadow {...props}>
 	{#if left}
 		<div
 			role="presentation"
