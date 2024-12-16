@@ -3,10 +3,12 @@
 	import generateNotifications from '$lib/utils/generate-notifications';
 
 	let notifications = $state(generateNotifications(3));
+
+	$inspect(notifications);
 </script>
 
 <ul>
-	{#each notifications as notification, index}
+	{#each notifications as notification, index (notification.id)}
 		<li>
 			<Notification
 				{notification}
