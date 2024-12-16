@@ -1,16 +1,19 @@
 <script lang="ts">
+	import Notification from '$lib/components/Notification.svelte';
 	import generateNotifications from '$lib/utils/generate-notifications';
 
-	let notifications = $state(generateNotifications());
+	let notifications = $state(generateNotifications(3));
 </script>
 
 <ul>
-	{#each notifications as { title, body, date }}
-		{@const dateObject = new Date(date)}
+	{#each notifications as notification, index}
 		<li>
-			<h5>{title}</h5>
-			<p>{body}</p>
-			<time datetime={dateObject.toISOString()}>{dateObject.toLocaleDateString()}</time>
+			<Notification
+				{notification}
+				onremove={(id) => {
+					notifications.splice(index, 1);
+				}}
+			/>
 		</li>
 	{:else}
 		<p>No notifications</p>
@@ -22,6 +25,15 @@
 		body {
 			background-color: #222;
 			color: #fff;
+		}
+	}
+
+	ul {
+		list-style: none;
+		padding: 10px;
+		margin: 0;
+		li {
+			margin-bottom: 10px;
 		}
 	}
 </style>
