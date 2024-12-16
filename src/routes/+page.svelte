@@ -10,28 +10,16 @@
 		}
 	});
 
-	$effect(() => {
-		console.log('object effect');
-		console.log(object);
-	});
-	$effect(() => {
-		console.log('object.firstName effect');
-		console.log(object.firstName);
-	});
-	$effect(() => {
-		console.log('object.address.city');
-		console.log(object.address.city);
-	});
-	$effect(() => {
-		console.log('array');
-		console.log(array[0]);
-	});
-	$effect(() => {
-		console.log('array.length');
-		console.log(array.length);
-	});
+	// $inspect(object).with(console.trace);
+
+	// $effect(() => {
+	// 	$inspect.trace();
+	// 	console.log(object.firstName);
+	// 	console.log(object.address.city);
+	// });
 </script>
 
+<!-- {@debug object, array} -->
 <h2>{object.firstName}</h2>
 <h2>{object.address.city}</h2>
 
@@ -44,6 +32,14 @@
 		array[1] = Math.random() * 10;
 	}}>Add to array</button
 >
+
+<button
+	onclick={() => {
+		console.log($state.snapshot(object));
+	}}
+>
+	Log Snapshot
+</button>
 
 <style>
 	:global {
