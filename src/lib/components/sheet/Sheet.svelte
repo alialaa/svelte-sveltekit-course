@@ -17,6 +17,19 @@
 		el.focus();
 		el.select();
 	}
+
+	function setCell(row: number, col: number, prop: 'value' | 'bgColor' | 'color', value: string) {
+		if (data[row]) {
+			if (data[row][col]) {
+				data[row][col][prop] = value;
+			} else {
+				data[row][col] = { [prop]: value };
+			}
+		} else {
+			data[row] = [];
+			data[row][col] = { [prop]: value };
+		}
+	}
 </script>
 
 <table class="sheet">
@@ -61,7 +74,7 @@
 									style:background-color={cellData?.bgColor}
 									style:color={cellData?.color}
 									oninput={(e) => {
-										console.log(e.currentTarget.value);
+										setCell(row - 1, column - 1, 'value', e.currentTarget.value);
 									}}
 								/>
 							{/if}
