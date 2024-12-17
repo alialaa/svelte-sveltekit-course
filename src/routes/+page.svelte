@@ -3,10 +3,10 @@
 
 	let data = $state([
 		[
-			{ value: 'Item', bgColor: '#6aa84f', color: '#fff' },
-			{ value: 'Price', bgColor: '#6aa84f', color: '#fff' },
-			{ value: 'Quantity', bgColor: '#6aa84f', color: '#fff' },
-			{ value: 'Total', bgColor: '#51803d', color: '#fff' }
+			{ value: 'Item', bgColor: '#6aa84f', color: '#ffffff' },
+			{ value: 'Price', bgColor: '#6aa84f', color: '#ffffff' },
+			{ value: 'Quantity', bgColor: '#6aa84f', color: '#ffffff' },
+			{ value: 'Total', bgColor: '#51803d', color: '#ffffff' }
 		],
 		[{ value: 'Milk' }, { value: '3' }, { value: '2' }, { value: '=MULTIPLY(B2,C2)' }],
 		[{ value: 'Oats' }, { value: '4' }, { value: '1' }, { value: '=MULTIPLY(B3,C3)' }],
@@ -19,14 +19,12 @@
 			{ value: '=SUM(D2,D3,D4,D5)', bgColor: '#8e7eb6' }
 		]
 	]);
-
-	let data2 = $state([[]]);
 </script>
 
-<Sheet bind:data={data2} />
+<Sheet bind:data />
 
 <pre>
-	{JSON.stringify(data2, null, 2)}
+	{JSON.stringify(data, null, 2)}
 </pre>
 
 <style>
