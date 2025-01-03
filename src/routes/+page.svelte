@@ -3,7 +3,7 @@
 	import { AlarmCheck, Search } from 'lucide-svelte';
 </script>
 
-<Button size="lg" disabled>
+<Button size="sm" class={{ test: true }} shadow disabled>
 	{#snippet left(isHovered)}
 		{#if isHovered}
 			<Search />

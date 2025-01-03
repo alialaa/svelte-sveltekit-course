@@ -9,10 +9,10 @@
 		size?: 'sm' | 'lg';
 		shadow?: boolean;
 	}
-	let { left, right, size = 'sm', shadow = false, children }: Props = $props();
+	let { left, right, size = 'sm', shadow = false, children, class: _class }: Props = $props();
 </script>
 
-<button class:sm={size == 'sm'} class:lg={size == 'lg'} class:shadow>
+<button class={[size === 'sm' && 'sm', size === 'lg' && 'lg', shadow && 'shadow', _class]}>
 	{#if left}
 		<div
 			role="presentation"
