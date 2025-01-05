@@ -6,40 +6,30 @@
 	let baseCurrency = $state('usd');
 	let baseRates = $derived(dummyRates[baseCurrency]);
 	let targetCurrency = $state('eur');
-	let targetValue: number | undefined = $state(calculateTarget());
+	// let targetValue: number | undefined = $state(calculateTarget());
+
+	let targetValue = {
+		get value() {
+			console.log('target', calculateTarget());
+			return calculateTarget();
+		},
+		set value(v) {
+			console.log('base', calculateBase(v));
+			baseValue = calculateBase(v);
+		}
+	};
 
 	function calculateTarget() {
 		return (
 			baseValue && baseRates[targetCurrency] && +(baseValue * baseRates[targetCurrency]).toFixed(3)
 		);
 	}
-	function calculateBase() {
+	function calculateBase(targetValue?: number) {
 		return (
 			targetValue &&
 			baseRates[targetCurrency] &&
 			+(targetValue / baseRates[targetCurrency]).toFixed(3)
 		);
-	}
-
-	function updateBaseValue(value: number) {
-		baseValue = value;
-		targetValue = calculateTarget();
-		console.log('Calculate Target value', targetValue);
-	}
-	function updateTargetValue(value: number) {
-		targetValue = value;
-		baseValue = calculateBase();
-		console.log('Calculate Base value', baseValue);
-	}
-	function updateBaseCurrency(value: string) {
-		baseCurrency = value;
-		targetValue = calculateTarget();
-		console.log('Calculate Target value', targetValue);
-	}
-	function updateTargetCurrency(value: string) {
-		targetCurrency = value;
-		targetValue = calculateTarget();
-		console.log('Calculate Target value', targetValue);
 	}
 </script>
 
@@ -61,19 +51,8 @@
 		>
 	</div>
 	<div class="base">
-		<input
-			type="number"
-			value={baseValue}
-			oninput={(e) => {
-				updateBaseValue(+e.currentTarget.value);
-			}}
-		/>
-		<select
-			value={baseCurrency}
-			oninput={(e) => {
-				updateBaseCurrency(e.currentTarget.value);
-			}}
-		>
+		<input type="number" bind:value={baseValue} />
+		<select bind:value={baseCurrency}>
 			<option value="usd">United States Dollar</option>
 			<option value="eur">Euro</option>
 			<option value="gbp">Pound Sterling</option>
@@ -81,19 +60,8 @@
 	</div>
 	<div class="target">
 		<div class="target">
-			<input
-				value={targetValue}
-				type="number"
-				oninput={(e) => {
-					updateTargetValue(+e.currentTarget.value);
-				}}
-			/>
-			<select
-				value={targetCurrency}
-				oninput={(e) => {
-					updateTargetCurrency(e.currentTarget.value);
-				}}
-			>
+			<input bind:value={targetValue.value} type="number" />
+			<select bind:value={targetCurrency}>
 				<option value="usd">United States Dollar</option>
 				<option value="eur">Euro</option>
 				<option value="gbp">Pound Sterling</option>
