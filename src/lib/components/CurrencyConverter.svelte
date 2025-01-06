@@ -2,12 +2,30 @@
 	class CurrencyConverter {
 		#baseValue: number | undefined = $state(1);
 		#baseCurrency = $state('usd');
-		baseRates: Record<string, number> = $state({});
-		targetCurrency = $state('eur');
+		#baseRates: Record<string, number> = $state({});
+		#targetCurrency = $state('eur');
 		#targetValue: number | undefined = $state();
 		currencies = $state({});
 		loading = $state(true);
 		error: string | undefined = $state();
+
+		get baseRates() {
+			return this.#baseRates;
+		}
+
+		set baseRates(v) {
+			this.#baseRates = v;
+			this.#targetValue = this.#calculateTarget();
+		}
+
+		get targetCurrency() {
+			return this.#targetCurrency;
+		}
+
+		set targetCurrency(v) {
+			this.#targetCurrency = v;
+			this.#targetValue = this.#calculateTarget();
+		}
 
 		get baseValue() {
 			return this.#baseValue;
