@@ -3,6 +3,15 @@
 	let baseCurrency = $state('usd');
 	let baseRates: Record<string, number> = $state({});
 	let targetCurrency = $state('eur');
+
+	class CurrencyConverter {
+		baseValue: number | undefined = $state(1);
+	}
+	const cc = new CurrencyConverter();
+
+	$effect(() => {
+		console.log(cc.baseValue);
+	});
 	const currenciesPromise = fetch(
 		'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json'
 	).then((r) => r.json());
@@ -44,6 +53,7 @@
 	}
 </script>
 
+<p>{cc.baseValue}</p>
 {#await currenciesPromise}
 	<p>Loading...</p>
 {:then currencies}
