@@ -1,16 +1,26 @@
 <script lang="ts">
-	import CurrencyConverter from '$lib/components/CurrencyConverter.svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 
-	import CC from '$lib/utils/currency-converter.svelte';
+	let date = new SvelteDate();
 
-	const cc = new CC(10, 'gbp', 'usd');
+	$effect(() => {
+		const interval = setInterval(() => {
+			date.setTime(Date.now());
+			// date = new Date();
+		}, 1000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	});
 </script>
 
-{cc.rate}
-{cc.baseCurrency}
-{cc.baseValue}
-{cc.targetValue}
-<CurrencyConverter />
+<p>
+	{date.getHours().toString().padStart(2, '0')}:{date
+		.getMinutes()
+		.toString()
+		.padStart(2, '0')}:{date.getSeconds().toString().padStart(2, '0')}
+</p>
 
 <style>
 	:global {
