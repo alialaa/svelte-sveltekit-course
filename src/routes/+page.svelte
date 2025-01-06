@@ -1,26 +1,18 @@
-<script lang="ts">
-	import { SvelteDate } from 'svelte/reactivity';
+<script>
+	import { SvelteURL } from 'svelte/reactivity';
 
-	let date = new SvelteDate();
-
-	$effect(() => {
-		const interval = setInterval(() => {
-			date.setTime(Date.now());
-			// date = new Date();
-		}, 1000);
-
-		return () => {
-			clearInterval(interval);
-		};
-	});
+	const url = new SvelteURL('https://example.com/path');
 </script>
 
-<p>
-	{date.getHours().toString().padStart(2, '0')}:{date
-		.getMinutes()
-		.toString()
-		.padStart(2, '0')}:{date.getSeconds().toString().padStart(2, '0')}
-</p>
+<!-- changes to these... -->
+<input bind:value={url.protocol} />
+<input bind:value={url.hostname} />
+<input bind:value={url.pathname} />
+
+<hr />
+
+<!-- will update `href` and vice versa -->
+<input bind:value={url.href} />
 
 <style>
 	:global {
