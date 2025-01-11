@@ -1,17 +1,16 @@
-class Counter {
-	value = $state(0);
+let count = $state(0);
 
-	constructor() {
-		$effect(() => {
-			console.log(this.value);
-		});
+export default {
+	get value() {
+		return count;
+	},
+	set value(v) {
+		count = v;
+	},
+	increment() {
+		count += 1;
+	},
+	reset() {
+		count = 0;
 	}
-	increment = () => {
-		this.value += 1;
-	};
-	reset = () => {
-		this.value = 0;
-	};
-}
-
-export default Counter;
+};

@@ -1,12 +1,11 @@
 <script lang="ts">
-	import Counter from '$lib/utils/counter.svelte';
+	import counter from '$lib/utils/counter.svelte';
 	import Button from './Button.svelte';
-
-	const { value, increment, reset } = new Counter();
+	const { increment, reset } = counter;
 </script>
 
 <div class="wrapper">
-	<h2>{value}</h2>
+	<h2>{counter.value}</h2>
 	<Button onclick={increment}>Increment</Button>
 	<Button --buttonBgColor="#fff" --buttonTextColor="#000" onclick={reset}>Reset</Button>
 </div>
