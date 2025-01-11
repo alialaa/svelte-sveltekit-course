@@ -1,7 +1,6 @@
 <script lang="ts">
-	import counter from '$lib/utils/counter.svelte';
+	import counter, { increment, reset } from '$lib/utils/counter.svelte';
 	import Button from './Button.svelte';
-	const { increment, reset } = counter;
 </script>
 
 <div class="wrapper">

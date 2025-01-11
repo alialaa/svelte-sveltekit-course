@@ -4,7 +4,8 @@
 </script>
 
 <ClickToCount />
-<DoubleClickToCount />
+<ClickToCount />
+<ClickToCount />
 
 <style>
 	:global {
