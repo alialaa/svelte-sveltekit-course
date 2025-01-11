@@ -1,7 +1,11 @@
 <script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 	import ClickToCount from '$lib/components/ClickToCount.svelte';
-	import DoubleClickToCount from '$lib/components/DoubleClickToCount.svelte';
+	import count, { increment } from '$lib/utils/counter.svelte';
 </script>
+
+<Button onclick={increment}>Increment</Button>
+{count.value}
 
 <ClickToCount />
 <ClickToCount />

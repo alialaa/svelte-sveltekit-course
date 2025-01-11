@@ -1,5 +1,11 @@
 const count = $state({ value: 0 });
 
+$effect.root(() => {
+	$effect(() => {
+		console.log(count.value);
+	});
+});
+
 export default count;
 
 export function increment() {
