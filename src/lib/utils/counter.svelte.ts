@@ -1,19 +1,17 @@
-function createCounter() {
-	let count = $state(0);
-	$effect(() => {
-		console.log(count);
-	});
-	return {
-		get value() {
-			return count;
-		},
-		increment: () => {
-			count += 1;
-		},
-		reset: () => {
-			count = 0;
-		}
+class Counter {
+	value = $state(0);
+
+	constructor() {
+		$effect(() => {
+			console.log(this.value);
+		});
+	}
+	increment = () => {
+		this.value += 1;
+	};
+	reset = () => {
+		this.value = 0;
 	};
 }
 
-export default createCounter;
+export default Counter;
