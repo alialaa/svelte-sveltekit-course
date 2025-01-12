@@ -15,17 +15,12 @@ class Counter {
 		this.#count = v;
 	}
 
-	constructor() {
-		this.increment = this.increment.bind(this);
-		this.reset = this.reset.bind(this);
-	}
-
-	increment() {
+	increment = () => {
 		this.value += 1;
-	}
-	reset() {
+	};
+	reset = () => {
 		this.value = 0;
-	}
+	};
 }
 
 export default new Counter();
