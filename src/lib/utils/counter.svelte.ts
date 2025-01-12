@@ -1,20 +1,31 @@
 import { browser } from '$app/environment';
 
-const storedCount = browser && localStorage.getItem('count');
+class Counter {
+	#count = $state(0);
 
-const count = $state(storedCount ? JSON.parse(storedCount) : { value: 0 });
+	get value() {
+		const storedValue = browser && localStorage.getItem('count');
+		if (storedValue) {
+			this.#count = JSON.parse(storedValue);
+		}
+		return this.#count;
+	}
+	set value(v) {
+		localStorage.setItem('count', JSON.stringify(v));
+		this.#count = v;
+	}
 
-$effect.root(() => {
-	$effect(() => {
-		localStorage.setItem('count', JSON.stringify(count));
-	});
-});
+	constructor() {
+		this.increment = this.increment.bind(this);
+		this.reset = this.reset.bind(this);
+	}
 
-export default count;
-
-export function increment() {
-	count.value += 1;
+	increment() {
+		this.value += 1;
+	}
+	reset() {
+		this.value = 0;
+	}
 }
-export function reset() {
-	count.value = 0;
-}
+
+export default new Counter();
