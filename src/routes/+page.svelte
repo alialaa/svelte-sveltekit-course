@@ -3,6 +3,8 @@
 	import Counters from '$lib/components/Counters.svelte';
 </script>
 
+<ClickToCount />
+
 <Counters>
 	<ClickToCount />
 	<ClickToCount />
