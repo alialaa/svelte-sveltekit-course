@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { Stage } from '$lib/components/konva';
+	import { Stage, Layer } from '$lib/components/konva';
 </script>
 
-<Stage width={500} height={500}></Stage>
+<Stage width={500} height={500}>
+	<Layer></Layer>
+</Stage>
 
 <style>
 	:global {
