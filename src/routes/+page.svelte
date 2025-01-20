@@ -5,7 +5,7 @@
 
 <ClickToCount />
 
-<Counters>
+<Counters initialCount={4}>
 	<ClickToCount />
 	<ClickToCount />
 </Counters>

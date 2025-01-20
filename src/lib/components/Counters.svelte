@@ -1,24 +1,10 @@
 <script lang="ts">
-	import { setContext, type Snippet } from 'svelte';
+	import { createCounterState, setCounterContext } from '$lib/contexts/counter-context.svelte';
+	import { type Snippet } from 'svelte';
 
-	let { children }: { children: Snippet } = $props();
-	let count = $state(0);
+	let { children, initialCount = 0 }: { children: Snippet; initialCount?: number } = $props();
 
-	setContext<{
-		value: number;
-		increment: () => void;
-		reset: () => void;
-	}>('count', {
-		get value() {
-			return count;
-		},
-		increment: () => {
-			count += 1;
-		},
-		reset: () => {
-			count = 0;
-		}
-	});
+	setCounterContext(createCounterState(initialCount));
 </script>
 
 {@render children()}
