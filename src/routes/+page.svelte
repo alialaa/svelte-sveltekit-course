@@ -1,19 +1,30 @@
 <script lang="ts">
-	import ClickToCount from '$lib/components/ClickToCount.svelte';
-	import Counters from '$lib/components/Counters.svelte';
+	import Konva from 'konva';
+
+	let container: HTMLDivElement;
+
+	$effect(() => {
+		const stage = new Konva.Stage({
+			container,
+			width: 500,
+			height: 500
+		});
+		const layer = new Konva.Layer();
+		const rect1 = new Konva.Rect({
+			x: 20,
+			y: 20,
+			width: 100,
+			height: 60,
+			fill: 'purple',
+			stroke: 'white',
+			strokeWidth: 4
+		});
+		layer.add(rect1);
+		stage.add(layer);
+	});
 </script>
 
-<ClickToCount />
-
-<Counters initialCount={4}>
-	<ClickToCount />
-	<ClickToCount />
-</Counters>
-
-<Counters>
-	<ClickToCount />
-	<ClickToCount />
-</Counters>
+<div bind:this={container}></div>
 
 <style>
 	:global {
