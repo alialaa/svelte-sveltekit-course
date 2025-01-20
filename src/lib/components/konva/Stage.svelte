@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Konva from 'konva';
-	import type { Snippet } from 'svelte';
+	import { onDestroy, onMount, type Snippet } from 'svelte';
 	import { setStageContext } from './konva-context';
 	import { registerEvents, type KonvaEventHooks } from './events';
 
@@ -12,17 +12,25 @@
 
 	setStageContext(() => stage);
 
-	$effect(() => {
+	onMount(() => {
 		stage = new Konva.Stage({
 			container,
 			...props
 		});
 		registerEvents(props, stage);
 		isReady = true;
-		return () => {
-			stage.destroy();
-		};
 	});
+	onDestroy(() => {
+		stage?.destroy();
+	});
+
+	Object.keys(props)
+		.filter((prop) => !prop.startsWith('on'))
+		.forEach((prop) => {
+			$effect(() => {
+				stage.setAttr(prop, props[prop]);
+			});
+		});
 </script>
 
 <div bind:this={container}>

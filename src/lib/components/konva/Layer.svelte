@@ -11,6 +11,13 @@
 	const node = new Konva.Layer(props);
 	stage.add(node);
 	registerEvents(props, node);
+	Object.keys(props)
+		.filter((prop) => !prop.startsWith('on'))
+		.forEach((prop) => {
+			$effect(() => {
+				node.setAttr(prop, props[prop]);
+			});
+		});
 	setLayerContext(node);
 	onDestroy(() => {
 		node.destroy();
