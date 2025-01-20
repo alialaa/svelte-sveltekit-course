@@ -4,11 +4,22 @@
 	import { getLayerContext } from './konva-context';
 	import { type KonvaEventHooks, registerEvents } from './events';
 
-	let props: Konva.RectConfig & KonvaEventHooks = $props();
+	let {
+		x = $bindable(),
+		y = $bindable(),
+		staticProps = false,
+		...props
+	}: { staticProps?: boolean } & Konva.RectConfig & KonvaEventHooks = $props();
 
 	const layer = getLayerContext();
 
 	const node = new Konva.Rect(props);
+	if (!staticProps) {
+		node.on('dragend', (e) => {
+			x = e.currentTarget.attrs.x;
+			y = e.currentTarget.attrs.y;
+		});
+	}
 
 	layer.add(node);
 	registerEvents(props, node);
@@ -20,6 +31,13 @@
 				node.setAttr(prop, props[prop]);
 			});
 		});
+
+	$effect(() => {
+		node.setAttr('x', x);
+	});
+	$effect(() => {
+		node.setAttr('y', y);
+	});
 
 	onDestroy(() => {
 		node.destroy();

@@ -29,11 +29,13 @@
 			strokeWidth={3}
 			draggable
 		/>
-		<Rect width={100} height={100} {x} {y} {fill} stroke="coral" strokeWidth={3}></Rect>
+		<Rect width={100} height={100} bind:x bind:y {fill} stroke="coral" strokeWidth={3} draggable
+		></Rect>
 	</Layer>
 </Stage>
-
+{x}
 <input type="range" bind:value={x} min={0} max={300} />
+{y}
 <input type="range" bind:value={y} min={0} max={300} />
 <input type="color" bind:value={fill} />
 
