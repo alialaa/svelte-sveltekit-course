@@ -2,14 +2,16 @@
 	import Konva from 'konva';
 	import { onDestroy } from 'svelte';
 	import { getLayerContext } from './konva-context';
+	import { type KonvaEventHooks, registerEvents } from './events';
 
-	let props: Konva.RectConfig = $props();
+	let props: Konva.RectConfig & KonvaEventHooks = $props();
 
 	const layer = getLayerContext();
 
 	const node = new Konva.Rect(props);
-	layer.add(node);
 
+	layer.add(node);
+	registerEvents(props, node);
 	onDestroy(() => {
 		node.destroy();
 	});

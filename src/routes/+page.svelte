@@ -3,8 +3,18 @@
 </script>
 
 <Stage width={500} height={500}>
-	<Layer>
+	<Layer
+		onclick={(e) => {
+			console.log(e);
+		}}
+	>
 		<Rect
+			ondragend={(e) => {
+				console.log(e);
+			}}
+			ondblclick={() => {
+				alert(true);
+			}}
 			width={200}
 			height={200}
 			x={20}
