@@ -8,7 +8,7 @@
 		$props();
 
 	const stage = getStageContext();
-	const node = new Konva.Layer(props);
+	export const node = new Konva.Layer(props);
 	stage.add(node);
 	registerEvents(props, node);
 	Object.keys(props)

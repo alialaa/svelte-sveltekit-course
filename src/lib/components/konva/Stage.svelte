@@ -12,6 +12,9 @@
 
 	setStageContext(() => stage);
 
+	export function getStage() {
+		return stage;
+	}
 	onMount(() => {
 		stage = new Konva.Stage({
 			container,
