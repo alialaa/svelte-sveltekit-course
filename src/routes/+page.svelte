@@ -1,57 +1,24 @@
 <script lang="ts">
-	import { Stage, Layer, Rect } from '$lib/components/konva';
-	import { innerWidth, innerHeight } from 'svelte/reactivity/window';
+	import longpress from '$lib/actions/longpress.svelte';
 
-	let x = $state(180);
-	let y = $state(90);
-	let fill = $state('#A020F0');
-	let stage: Stage;
-	let layer: Layer;
-	let rect: Rect;
+	let showButton = $state(true);
+	let duration = $state(3000);
 </script>
 
-<Stage bind:this={stage} width={innerWidth.current} height={(innerHeight.current || 0) / 1.2}>
-	<Layer
-		bind:this={layer}
-		onclick={(e) => {
-			console.log(e);
-		}}
-	>
-		<Rect
-			bind:this={rect}
-			ondragend={(e) => {
-				console.log(e);
-			}}
-			ondblclick={() => {
-				alert(true);
-			}}
-			width={200}
-			height={200}
-			x={20}
-			y={40}
-			fill="blanchedalmond"
-			stroke="green"
-			strokeWidth={3}
-			draggable
-		/>
-		<Rect width={100} height={100} bind:x bind:y {fill} stroke="coral" strokeWidth={3} draggable
-		></Rect>
-	</Layer>
-</Stage>
+<label><input type="checkbox" bind:checked={showButton} /> Toggle</label>
 
-<button
-	onclick={() => {
-		console.log(stage.getStage().getAttrs());
-		console.log(layer.node.getAttrs());
-		console.log(rect.node.getAttrs());
-		rect.node.x(0);
-	}}>Log Info</button
->
-{x}
-<input type="range" bind:value={x} min={0} max={300} />
-{y}
-<input type="range" bind:value={y} min={0} max={300} />
-<input type="color" bind:value={fill} />
+<label>
+	<input type="range" bind:value={duration} max={4000} step={100} />{duration}ms
+</label>
+
+{#if showButton}
+	<button
+		use:longpress={() => ({ duration })}
+		onlongpress={() => {
+			console.log('long pressed');
+		}}>Text</button
+	>
+{/if}
 
 <style>
 	:global {
