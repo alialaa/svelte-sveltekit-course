@@ -7,11 +7,24 @@ const longpress: Action<
 > = (node, getOptions) => {
 	$effect(() => {
 		const options = getOptions();
-		const duration = options.duration || 1000;
-		console.log(duration);
-		console.log('Mounted');
+		const duration = options.duration === undefined ? 1000 : options.duration;
+		let timer: number;
+
+		function handleMouseDown() {
+			timer = setTimeout(() => {
+				node.dispatchEvent(new CustomEvent('longpress'));
+			}, duration);
+		}
+		function handleMouseUp() {
+			clearTimeout(timer);
+		}
+
+		node.addEventListener('mousedown', handleMouseDown);
+		node.addEventListener('mouseup', handleMouseUp);
 		return () => {
-			console.log('Destroyed');
+			clearTimeout(timer);
+			node.removeEventListener('mousedown', handleMouseDown);
+			node.removeEventListener('mouseup', handleMouseUp);
 		};
 	});
 };
