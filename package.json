@@ -34,6 +34,7 @@
 		"konva": "^9.3.18",
 		"lorem-ipsum": "^2.0.8",
 		"lucide-svelte": "^0.460.1",
+		"tippy.js": "^6.3.7",
 		"uuid": "^11.0.3"
 	}
 }
