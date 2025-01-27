@@ -1,36 +1,18 @@
 <script lang="ts">
-	import { scrollY } from 'svelte/reactivity/window';
-
-	// let scrollY = $state(0);
-	let visibilityState = $state(null);
+	import BuggyComponent from '$lib/components/BuggyComponent.svelte';
 </script>
 
-<!-- <div style="position: fixed;">{scrollY.current}</div> -->
-<!-- <svelte:window
-	bind:scrollY
-	onscroll={(e) => {
-		console.log(e);
+<svelte:boundary
+	onerror={(e) => {
+		console.log(e); // Report this error
 	}}
-/> -->
-{visibilityState}
-<svelte:document
-	bind:visibilityState
-	onvisibilitychange={(e) => {
-		console.log(document.visibilityState);
-	}}
-/>
-
-<svelte:body
-	onmouseenter={() => {
-		console.log('mouseenter');
-	}}
-/>
-
-<svelte:head>
-	<title>Hello Svelte</title>
-</svelte:head>
-
-<div style="height: 1000px;"></div>
+>
+	<BuggyComponent />
+	{#snippet failed(error: any, reset)}
+		<p>{error?.message}</p>
+		<button onclick={reset}>Reset</button>
+	{/snippet}
+</svelte:boundary>
 
 <style>
 	:global {
