@@ -1,16 +1,36 @@
 <script lang="ts">
-	import tippy from '$lib/actions/tippy.svelte';
+	import { scrollY } from 'svelte/reactivity/window';
 
-	let content = $state('Initial Text');
+	// let scrollY = $state(0);
+	let visibilityState = $state(null);
 </script>
 
-<input type="text" bind:value={content} />
-<button
-	use:tippy={() => ({
-		content,
-		animation: 'scale'
-	})}>Button</button
->
+<!-- <div style="position: fixed;">{scrollY.current}</div> -->
+<!-- <svelte:window
+	bind:scrollY
+	onscroll={(e) => {
+		console.log(e);
+	}}
+/> -->
+{visibilityState}
+<svelte:document
+	bind:visibilityState
+	onvisibilitychange={(e) => {
+		console.log(document.visibilityState);
+	}}
+/>
+
+<svelte:body
+	onmouseenter={() => {
+		console.log('mouseenter');
+	}}
+/>
+
+<svelte:head>
+	<title>Hello Svelte</title>
+</svelte:head>
+
+<div style="height: 1000px;"></div>
 
 <style>
 	:global {
