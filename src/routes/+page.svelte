@@ -3,7 +3,7 @@
 </script>
 
 <VideoPlayer
-	src="https://previews.customer.envatousercontent.com/c6376000-ac71-4351-b229-1e2f1763034b/watermarked_preview/watermarked_preview.mp4"
+	src="https://previews.customer.envatousercontent.com/h264-video-previews/3502107.mp4"
 />
 
 <style>
