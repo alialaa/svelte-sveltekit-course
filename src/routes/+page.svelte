@@ -1,10 +1,21 @@
 <script lang="ts">
-	import VideoPlayer from '$lib/components/VideoPlayer.svelte';
+	import Button, { getButtonsCount } from '$lib/components/Button.svelte';
+
+	let showButton = $state(false);
 </script>
 
-<VideoPlayer
-	src="https://previews.customer.envatousercontent.com/h264-video-previews/3502107.mp4"
-/>
+<button
+	onclick={() => {
+		alert(getButtonsCount());
+	}}>Show Buttons Count</button
+>
+<input type="checkbox" bind:checked={showButton} />
+
+<Button>Some Text</Button>
+<Button>Some Text</Button>
+{#if showButton}
+	<Button>Some Text</Button>
+{/if}
 
 <style>
 	:global {

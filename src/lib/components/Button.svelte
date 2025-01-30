@@ -1,7 +1,22 @@
+<script module>
+	let buttonCount = 0;
+
+	export function getButtonsCount() {
+		return buttonCount;
+	}
+</script>
+
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { onDestroy, onMount, type Snippet } from 'svelte';
 	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	let isLeftHovered = $state(false);
+
+	onMount(() => {
+		buttonCount += 1;
+	});
+	onDestroy(() => {
+		buttonCount -= 1;
+	});
 
 	let button: HTMLButtonElement | HTMLAnchorElement;
 
