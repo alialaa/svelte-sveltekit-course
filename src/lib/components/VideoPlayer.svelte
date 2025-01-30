@@ -1,6 +1,25 @@
+<script module>
+	let allVideos: Set<HTMLVideoElement> = new Set();
+
+	export function getAllVideos() {
+		return allVideos;
+	}
+	export function playAll() {
+		allVideos.forEach((video) => {
+			video.play();
+		});
+	}
+	export function pauseAll() {
+		allVideos.forEach((video) => {
+			video.pause();
+		});
+	}
+</script>
+
 <script lang="ts">
 	import tippy from '$lib/actions/tippy.svelte';
 	import { Minus, Pause, Play, Plus, Volume2, VolumeOff } from 'lucide-svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 
 	let { src }: { src: string } = $props();
@@ -13,7 +32,7 @@
 	let muted = $state(true);
 	let buffered = $state([{ start: 0, end: 0 }]);
 	let showVolume = $state(false);
-
+	let video: HTMLVideoElement;
 	const possibleRates = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 	const iconsSize = 20;
 
@@ -35,11 +54,18 @@
 
 		return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 	}
+	onMount(() => {
+		allVideos.add(video);
+	});
+	onDestroy(() => {
+		allVideos.delete(video);
+	});
 </script>
 
 <div class={['player', { paused }]}>
 	<!-- svelte-ignore a11y_media_has_caption -->
 	<video
+		bind:this={video}
 		{src}
 		onclick={() => {
 			paused = !paused;
@@ -52,6 +78,13 @@
 		bind:volume
 		bind:buffered
 		bind:muted
+		onplay={() => {
+			allVideos.forEach((_video) => {
+				if (_video !== video) {
+					_video.pause();
+				}
+			});
+		}}
 	></video>
 	<div
 		class="slider"
