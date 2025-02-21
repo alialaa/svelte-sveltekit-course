@@ -1,9 +1,12 @@
 <script lang="ts">
+	import Counter from '$lib/components/Counter.svelte';
 	import TierList from '$lib/components/tier-list/TierList.svelte';
 	let images = $state([]);
 </script>
 
-<TierList bind:images />
+<Counter />
+
+<!-- <TierList bind:images /> -->
 
 <style lang="scss">
 	:global body {

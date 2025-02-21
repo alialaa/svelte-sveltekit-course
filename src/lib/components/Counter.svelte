@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { fly, scale } from 'svelte/transition';
 
 	let count = $state(0);
 	let frequency = $state(1000);
@@ -42,7 +43,11 @@
 	});
 </script>
 
-<h1>{count}</h1>
+{#key count}
+	<h1 style="display: inline-block;" in:fly={{ y: -20 }}>{count}</h1>
+{/key}
+<br />
+
 {frequency}
 <button onclick={reset}>Reset</button>
 <button onclick={togglePlayState}>{paused ? 'Play' : 'Pause'}</button>
