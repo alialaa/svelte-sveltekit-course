@@ -3,6 +3,8 @@
 	import tippy from '$lib/actions/tippy.svelte';
 	import { ChevronDown, ChevronUp, Minus, Plus, X } from 'lucide-svelte';
 	import { defaultTiers, getBase64, type Tier, type TierImage } from './utils';
+	import { blur, fade, fly } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 
 	let {
 		images = $bindable([]),
@@ -45,6 +47,8 @@
 		});
 		tiers.splice(index, 1);
 	}
+
+	let showList = $state(true);
 </script>
 
 {#snippet image(image: TierImage)}
@@ -88,112 +92,125 @@
 	</div>
 {/snippet}
 
-<div class="tiers">
-	{#each tiers as tier, index}
-		{@const tierImages = images.filter((i) => i.tier === tier.id)}
-		<div class="tier">
-			<div
-				class="label"
-				contenteditable="true"
-				bind:innerText={tier.label}
-				style:background-color={tier.color}
-			></div>
-			<div class="content">
-				{#each tierImages as _image}
-					<div class="image-outer">
-						{@render image(_image)}
+<input type="checkbox" bind:checked={showList} />
+
+{#if showList}
+	<div
+		in:fly={{ duration: 2000, easing: cubicInOut, y: 100 }}
+		out:blur={{ duration: 2000, amount: 10 }}
+		onintrostart={() => console.log('intro started')}
+		onoutrostart={() => console.log('outro started')}
+		onintroend={() => console.log('intro ended')}
+		onoutroend={() => console.log('outro ended')}
+	>
+		<div class="tiers">
+			{#each tiers as tier, index}
+				{@const tierImages = images.filter((i) => i.tier === tier.id)}
+				<div class="tier">
+					<div
+						class="label"
+						contenteditable="true"
+						bind:innerText={tier.label}
+						style:background-color={tier.color}
+					></div>
+					<div class="content">
+						{#each tierImages as _image}
+							<div class="image-outer">
+								{@render image(_image)}
+							</div>
+						{/each}
 					</div>
-				{/each}
-			</div>
-			<div class="options">
-				<div class="option">
-					<button
-						disabled={index === 0}
-						aria-label="Move Tier {tier.label} Up"
-						use:tippy={() => ({ content: 'Move Up' })}
-						onclick={() => {
-							swapTiers(index, index - 1);
-						}}
-					>
-						<ChevronUp />
-					</button>
-				</div>
-				<div class="option">
-					<button
-						disabled={index === tiers.length - 1}
-						aria-label="Move Tier {tier.label} Down"
-						use:tippy={() => ({ content: 'Move Down' })}
-						onclick={() => {
-							swapTiers(index, index + 1);
-						}}
-					>
-						<ChevronDown />
-					</button>
-				</div>
+					<div class="options">
+						<div class="option">
+							<button
+								disabled={index === 0}
+								aria-label="Move Tier {tier.label} Up"
+								use:tippy={() => ({ content: 'Move Up' })}
+								onclick={() => {
+									swapTiers(index, index - 1);
+								}}
+							>
+								<ChevronUp />
+							</button>
+						</div>
+						<div class="option">
+							<button
+								disabled={index === tiers.length - 1}
+								aria-label="Move Tier {tier.label} Down"
+								use:tippy={() => ({ content: 'Move Down' })}
+								onclick={() => {
+									swapTiers(index, index + 1);
+								}}
+							>
+								<ChevronDown />
+							</button>
+						</div>
 
-				<div class="option">
-					<button
-						aria-label="Add Tier Below Tier {tier.label}"
-						use:tippy={() => ({ content: 'Add Tier Below' })}
-						onclick={() => {
-							addNewTier(index + 1);
-						}}
-					>
-						<Plus />
-					</button>
+						<div class="option">
+							<button
+								aria-label="Add Tier Below Tier {tier.label}"
+								use:tippy={() => ({ content: 'Add Tier Below' })}
+								onclick={() => {
+									addNewTier(index + 1);
+								}}
+							>
+								<Plus />
+							</button>
+						</div>
+						<div class="option">
+							<button
+								aria-label="Delete Tier {tier.label}"
+								use:tippy={() => ({ content: 'Delete Tier' })}
+								onclick={() => {
+									deleteTier(index);
+								}}
+							>
+								<Minus />
+							</button>
+						</div>
+						<div class="option" use:tippy={() => ({ content: 'Edit Color' })}>
+							<input
+								type="color"
+								class="color-input"
+								id="{tier.id}-color"
+								aria-label="Edit Tier {tier.label} Color"
+								bind:value={tier.color}
+							/>
+						</div>
+					</div>
 				</div>
-				<div class="option">
-					<button
-						aria-label="Delete Tier {tier.label}"
-						use:tippy={() => ({ content: 'Delete Tier' })}
-						onclick={() => {
-							deleteTier(index);
-						}}
-					>
-						<Minus />
-					</button>
+			{/each}
+		</div>
+
+		<div class="images">
+			{#each tierLessImages as _image}
+				<div class="image-outer">
+					{@render image(_image)}
 				</div>
-				<div class="option" use:tippy={() => ({ content: 'Edit Color' })}>
-					<input
-						type="color"
-						class="color-input"
-						id="{tier.id}-color"
-						aria-label="Edit Tier {tier.label} Color"
-						bind:value={tier.color}
-					/>
-				</div>
+			{/each}
+		</div>
+
+		<div class="add-images">
+			<div class="input">
+				<input
+					type="file"
+					accept="image/png, image/jpeg, image/svg+xml"
+					multiple
+					id="images"
+					name="images"
+					aria-label="Add Images"
+					oninput={(e) => {
+						[...(e.currentTarget.files || [])].forEach(async (file) => {
+							const base64 = await getBase64(file);
+							images.push({ id: uuid(), image: base64 as string });
+						});
+					}}
+				/>
+				<span>Add Images</span>
 			</div>
 		</div>
-	{/each}
-</div>
-
-<div class="images">
-	{#each tierLessImages as _image}
-		<div class="image-outer">
-			{@render image(_image)}
-		</div>
-	{/each}
-</div>
-
-<div class="add-images">
-	<div class="input">
-		<input
-			type="file"
-			accept="image/png, image/jpeg, image/svg+xml"
-			multiple
-			id="images"
-			name="images"
-			aria-label="Add Images"
-			oninput={(e) => {
-				[...(e.currentTarget.files || [])].forEach(async (file) => {
-					const base64 = await getBase64(file);
-					images.push({ id: uuid(), image: base64 as string });
-				});
-			}}
-		/>
-		<span>Add Images</span>
 	</div>
-</div>
+{/if}
 
 <style lang="scss">
 	* {
