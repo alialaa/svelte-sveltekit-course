@@ -56,11 +56,18 @@
 		<button
 			use:tippy={() => ({
 				content: document.getElementById(`tiers-for-${image.id}`) || undefined,
+				onMount: () => {
+					const template = document.getElementById(`tiers-for-${image.id}`);
+					if (template) {
+						template.style.display = 'flex';
+					}
+				},
 				onShown: (instance) => {
 					instance.popper.addEventListener('click', () => {
 						instance.hide();
 					});
 				},
+				duration: 0,
 				trigger: 'click',
 				interactive: true,
 				placement: 'bottom'
@@ -68,7 +75,7 @@
 		>
 			<img src={image.image} alt="" />
 		</button>
-		<div class="image-tiers" id="tiers-for-{image.id}">
+		<div style="display: none" class="image-tiers" id="tiers-for-{image.id}">
 			{#each tiers.filter((t) => image.tier !== t.id) as tier}
 				<button
 					aria-label="Add Image to Tier {tier.label}"
