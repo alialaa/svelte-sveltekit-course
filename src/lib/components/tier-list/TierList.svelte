@@ -3,7 +3,7 @@
 	import tippy from '$lib/actions/tippy.svelte';
 	import { ChevronDown, ChevronUp, Minus, Plus, X } from 'lucide-svelte';
 	import { defaultTiers, getBase64, type Tier, type TierImage } from './utils';
-	import { blur, fade, fly } from 'svelte/transition';
+	import { blur, fade, fly, scale } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 
 	let {
@@ -52,7 +52,7 @@
 </script>
 
 {#snippet image(image: TierImage)}
-	<div class="image">
+	<div class="image" transition:scale={{ duration: 300, start: 0.5, easing: cubicInOut }}>
 		<button
 			use:tippy={() => ({
 				content: document.getElementById(`tiers-for-${image.id}`) || undefined,
@@ -95,18 +95,11 @@
 <input type="checkbox" bind:checked={showList} />
 
 {#if showList}
-	<div
-		in:fly={{ duration: 2000, easing: cubicInOut, y: 100 }}
-		out:blur={{ duration: 2000, amount: 10 }}
-		onintrostart={() => console.log('intro started')}
-		onoutrostart={() => console.log('outro started')}
-		onintroend={() => console.log('intro ended')}
-		onoutroend={() => console.log('outro ended')}
-	>
+	<div transition:fly={{ duration: 400, y: 100 }}>
 		<div class="tiers">
-			{#each tiers as tier, index}
+			{#each tiers as tier, index (tier.id)}
 				{@const tierImages = images.filter((i) => i.tier === tier.id)}
-				<div class="tier">
+				<div class="tier" transition:scale={{ start: 0.5, duration: 300, easing: cubicInOut }}>
 					<div
 						class="label"
 						contenteditable="true"
@@ -114,7 +107,7 @@
 						style:background-color={tier.color}
 					></div>
 					<div class="content">
-						{#each tierImages as _image}
+						{#each tierImages as _image (_image.id)}
 							<div class="image-outer">
 								{@render image(_image)}
 							</div>
@@ -183,7 +176,7 @@
 		</div>
 
 		<div class="images">
-			{#each tierLessImages as _image}
+			{#each tierLessImages as _image (_image.id)}
 				<div class="image-outer">
 					{@render image(_image)}
 				</div>
