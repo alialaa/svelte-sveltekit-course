@@ -6,6 +6,7 @@
 	import { blur, crossfade, fade, fly, scale } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import { flip } from 'svelte/animate';
+	import spin from '$lib/transitions/spin';
 
 	let {
 		images = $bindable([]),
@@ -111,7 +112,7 @@
 <input type="checkbox" bind:checked={showList} />
 
 {#if showList}
-	<div transition:fly={{ duration: 400, y: 100 }}>
+	<div transition:spin={{ duration: 400, spin: 1 }}>
 		<div class="tiers">
 			{#each tiers as tier, index (tier.id)}
 				{@const tierImages = images.filter((i) => i.tier === tier.id)}
