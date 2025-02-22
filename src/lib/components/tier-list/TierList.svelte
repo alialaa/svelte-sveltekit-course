@@ -7,6 +7,7 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { flip } from 'svelte/animate';
 	import spin from '$lib/transitions/spin';
+	import fadeJS from '$lib/transitions/fadejs';
 
 	let {
 		images = $bindable([]),
@@ -112,7 +113,7 @@
 <input type="checkbox" bind:checked={showList} />
 
 {#if showList}
-	<div transition:spin={{ duration: 400, spin: 1 }}>
+	<div transition:fadeJS={{ duration: 400 }}>
 		<div class="tiers">
 			{#each tiers as tier, index (tier.id)}
 				{@const tierImages = images.filter((i) => i.tier === tier.id)}
