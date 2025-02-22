@@ -8,6 +8,7 @@
 	import { flip } from 'svelte/animate';
 	import spin from '$lib/transitions/spin';
 	import fadeJS from '$lib/transitions/fadejs';
+	import flip2 from '$lib/animations/flip2';
 
 	let {
 		images = $bindable([]),
@@ -119,7 +120,7 @@
 				{@const tierImages = images.filter((i) => i.tier === tier.id)}
 				<div
 					class="tier"
-					animate:flip={{ duration: 300, easing: cubicInOut }}
+					animate:flip2={{ duration: 300, easing: cubicInOut }}
 					transition:scale={{ start: 0.5, duration: 300, easing: cubicInOut }}
 				>
 					<div
